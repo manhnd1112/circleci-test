@@ -1,0 +1,37 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/cricle-test
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+
+      # Restore .m2 cache
+      - restore_cache:
+          key: cricle-test-{{ checksum "pom.xml" }}
+
+      - run: |
+          mvn -f pom.xml dependency:resolve
+          mvn -f pom.xml test site jacoco:report
+
+      # Save .m2 cache
+      - save_cache:
+          key: cricle-test-{{ checksum "pom.xml" }}
+          paths:
+            - "~/.m2"
+
+      - run: |
+          mkdir cricle-test/target/junit
+          find . -type f -regex ".*/target/surefire-reports/.*xml" -exec cp {} cricle-test/target/junit/ \;
+
+      - store_test_results:
+          path: cricle-test/target/junit
+
+      - store_artifacts:
+          path: cricle-test/target/junit
+          destination: junit
+
+      - store_artifacts:
+          path: cricle-testS/target/site
+          destination: site
