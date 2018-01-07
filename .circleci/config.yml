@@ -26,8 +26,8 @@ jobs:
             - ~/.m2
           key: cricle-test-{{ checksum "pom.xml" }}
       - persist_to_workspace:
-          root: .
-          paths: *
+          root: /home/circleci
+          paths: circleci-demo-workflows
 
   get_dependencies:
     docker:
