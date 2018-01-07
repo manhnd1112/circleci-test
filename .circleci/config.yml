@@ -7,16 +7,21 @@ jobs:
   checkout_code:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: ~/circleci-demo-workflows
     steps:
       - checkout
-      - run: |
-          pwd
-          ls
+      - persist_to_workspace:
+          root: ~/circleci-demo-workflows
+          paths:
+            - *
 
   get_dependencies:
     docker:
       - image: circleci/openjdk:8-jdk
+    working_directory: ~/circleci-demo-workflows
     steps:
+      - attach_workspace:
+          at: ~/circleci-demo-workflows
       - run: |
           pwd
           ls
@@ -37,6 +42,8 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
+      - attach_workspace:
+          at: ~/circleci-demo-workflows
       - run: mvn compile
 
   test:
@@ -45,6 +52,9 @@ jobs:
     environment:
       MAVEN_OPTS: -Xmx3200m
     steps:
+      - attach_workspace:
+          at: ~/circleci-demo-workflows
+
       # run tests!
       - run: |
           mvn integration-test
