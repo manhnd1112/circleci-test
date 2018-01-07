@@ -10,6 +10,8 @@ jobs:
     working_directory: ~/circleci-demo-workflows
     steps:
       - checkout
+      - attach_workspace:
+          at: ~/circleci-demo-workflows
       - persist_to_workspace:
           root: .
           paths: *
