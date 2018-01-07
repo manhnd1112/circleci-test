@@ -17,6 +17,9 @@ jobs:
     docker:
       - image: circleci/openjdk:8-jdk
     steps:
+      - run: |
+          pwd
+          ls
       - restore_cache:
           keys:
           - cricle-test-{{ checksum "pom.xml" }}
