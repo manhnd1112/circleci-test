@@ -98,6 +98,7 @@ workflows:
           requires:
             - get_dependencies
       - deploy:
+          type: approval
           requires:
             - build
             - test
