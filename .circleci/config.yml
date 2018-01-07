@@ -4,41 +4,51 @@
 #
 version: 2
 jobs:
-  build:
+  checkout_code:
     docker:
-      # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-
-      # Specify service dependencies here if necessary
-      # CircleCI maintains a library of pre-built images
-      # documented at https://circleci.com/docs/2.0/circleci-images/
-      # - image: circleci/postgres:9.4
-
     working_directory: ~/cricle-test
-
-    environment:
-      # Customize the JVM maximum heap limit
-      MAVEN_OPTS: -Xmx3200m
-
     steps:
       - checkout
 
-      # Download and cache dependencies
+  get_dependencies:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/cricle-test
+    steps:
       - restore_cache:
           keys:
           - cricle-test-{{ checksum "pom.xml" }}
           # fallback to using the latest cache if no exact match is found
           - cricle-test-
-
       - run: mvn dependency:go-offline
-
       - save_cache:
           paths:
             - ~/.m2
           key: cricle-test-{{ checksum "pom.xml" }}
 
-      # run tests!
-      - run: mvn integration-test
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    working_directory: ~/cricle-test
+    environment:
+      MAVEN_OPTS: -Xmx3200m
+    steps:
+      - run: mvn compile
 
+  test:
+      # run tests!
+      - run: |
+          mvn integration-test
+          mkdir target/junit
       - store_test_results:
           path: target/junit
+
+workflows:
+  version: 2
+  build_and_test:
+    jobs:
+      - checkout_code
+      - get_dependencies
+      - build
+      - test
