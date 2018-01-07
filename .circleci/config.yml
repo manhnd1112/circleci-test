@@ -97,7 +97,7 @@ workflows:
       - test: # xong get_dependencies mới test
           requires:
             - get_dependencies
-      - deploy-job:
+      - deploy:
           requires:
             - build
             - test
