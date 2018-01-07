@@ -12,8 +12,7 @@ jobs:
       - checkout
       - persist_to_workspace:
           root: ~/circleci-demo-workflows
-          paths:
-            - *
+          paths: *
 
   get_dependencies:
     docker:
