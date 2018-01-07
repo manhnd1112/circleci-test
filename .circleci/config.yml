@@ -21,9 +21,6 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/
-      - run: |
-          pwd
-          ls
       - restore_cache:
           keys:
           - cricle-test-{{ checksum "pom.xml" }}
