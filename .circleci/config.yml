@@ -54,12 +54,12 @@ workflows:
   version: 2
   build_and_test:
     jobs:
-      - get_dependencies
+      - get_dependencies:
         requires:
           - checkout_code
-      - build
+      - build:
         requires:
           - get_dependencies
-      - test
+      - test:
         requires:
           - get_dependencies
