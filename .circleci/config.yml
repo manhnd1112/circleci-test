@@ -9,6 +9,7 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - run: pwd
 
   get_dependencies:
     docker:
