@@ -58,7 +58,6 @@ jobs:
           at: ~/
       # run tests!
       - run: |
-          mvn integration-test
           mkdir target/junit
       - store_test_results:
           path: target/junit
