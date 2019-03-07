@@ -75,11 +75,11 @@ jobs:
           command: bash .circleci/setup-heroku.sh
       - add_ssh_keys:
           fingerprints:
-            - "a1:5d:48:05:92:d2:b4:82:87:41:46:b0:8c:29:3b:46"
+            - "e5:07:b2:87:4d:89:9a:e2:b5:a1:7f:76:19:a0:01:b0"
       - run:
           name: Deploy Master to Heroku
           command: |
-            git push --force git@heroku.com:fathomless-inlet-82408.git HEAD:refs/heads/master
+            git push --force https://git.heroku.com/shielded-wildwood-67018.git HEAD:refs/heads/master
             heroku run python manage.py deploy
             heroku restart
 
