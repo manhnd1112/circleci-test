@@ -58,9 +58,7 @@ jobs:
           at: ~/
       # run tests!
       - run: |
-          mkdir target/junit
-      - store_test_results:
-          path: target/junit
+          ls
 
   deploy:
     docker:
